@@ -1,6 +1,10 @@
 import swaggerJsDoc from 'swagger-jsdoc';
 import * as swaggerUi from 'swagger-ui-express';
 import express, { Application } from 'express';
+import { readdirSync } from 'fs';
+
+console.log('Arquivos em ./dist/routes:', readdirSync('./dist/routes'));
+console.log('Arquivos em ./dist/models:', readdirSync('./dist/models'));
 
 
 const swaggerOptions = {
@@ -36,7 +40,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./dist/routes/*.js', './dist/models/*.js'],
+  apis: [`${__dirname}/routes/*.js`, `${__dirname}/models/*.js`],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
