@@ -1,11 +1,6 @@
 import swaggerJsDoc from 'swagger-jsdoc';
-import * as swaggerUi from 'swagger-ui-express';
-import express, { Application } from 'express';
-import { readdirSync } from 'fs';
-
-console.log('Arquivos em ./dist/routes:', readdirSync('./dist/routes'));
-console.log('Arquivos em ./dist/models:', readdirSync('./dist/models'));
-
+import swaggerUi from 'swagger-ui-express';
+import { Application } from 'express';
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -21,8 +16,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'https://softbackend.vercel.app/',
-        description: 'Servidor de Produção',
+        url: 'http://localhost:3000',
+        description: 'Servidor local',
       },
     ],
     components: {
@@ -40,12 +35,13 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [`${__dirname}/routes/*.js`, `${__dirname}/models/*.js`],
+  apis: ['./dist/routes/*.js', './dist/models/*.js'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 export const setupSwagger = (app: Application): void => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-  console.log('Documentação Swagger disponível em /api-docs');
+  console.log(`Documentação Swagger disponível em http://localhost:${process.env.PORT}/api-docs`);
+
 };
